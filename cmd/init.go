@@ -35,7 +35,7 @@ var InitCmd = &cobra.Command{
 		}
 
 		// 初始化全局日志配置
-		if err := loadGlobalLogger(); err != nil {
+		if err := loadGlobalLogzap(); err != nil {
 			return err
 		}
 

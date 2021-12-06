@@ -20,7 +20,7 @@ var (
 func newConfig() *Config {
 	return &Config{
 		App:   newDefaultAPP(),
-		Log:   newDefaultLog(),
+		Logs:  newDefaultLog(),
 		Mongo: newDefaultMongoDB(),
 		Cache: newDefaultCache(),
 		Nats:  nats.NewDefaultConfig(),
@@ -30,12 +30,12 @@ func newConfig() *Config {
 
 // Config 应用配置
 type Config struct {
-	App   *app          `toml:"app"`
-	Log   *log          `toml:"log"`
-	Mongo *mongodb      `toml:"mongodb"`
-	Nats  *nats.Config  `toml:"nats"`
-	Kafka *kafka.Config `toml:"kafka"`
-	Cache *_cache       `toml:"cache"`
+	App   *app            `toml:"app"`
+	Logs  *map[string]log `toml:"logs"`
+	Mongo *mongodb        `toml:"mongodb"`
+	Nats  *nats.Config    `toml:"nats"`
+	Kafka *kafka.Config   `toml:"kafka"`
+	Cache *_cache         `toml:"cache"`
 }
 
 // InitGloabl 注入全局变量
@@ -83,15 +83,19 @@ type log struct {
 	PathDir string    `toml:"path_dir" env:"K_LOG_PATH"`
 	Format  LogFormat `toml:"format" env:"K_LOG_FORMAT"`
 	To      LogTo     `toml:"to" env:"K_LOG_TO"`
+	File    string    `toml:"file" env:"K_LOG_FILE"`
 }
 
-func newDefaultLog() *log {
-	return &log{
+func newDefaultLog() *map[string]log {
+	commonMap := make(map[string]log)
+	commonMap["commentlog"] = log{
 		Level:   "debug",
 		PathDir: "logs",
 		Format:  "text",
 		To:      "stdout",
+		File:    "common.log",
 	}
+	return &commonMap
 }
 
 type mongodb struct {
