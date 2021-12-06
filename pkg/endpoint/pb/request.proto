@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package keyauth.endpoint;
+option go_package = "github.com/infraboard/keyauth/pkg/endpoint";
+
+import "github.com/infraboard/mcube/pb/page/page.proto";
+import "github.com/infraboard/mcube/pb/http/entry.proto";
+import "github.com/infraboard/mcube/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/endpoint/pb/enum.proto";
+
+// RegistryRequest 服务注册请求
+message RegistryRequest {
+	string version = 3[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"version" validate:"required,lte=32"'}
+        ];
+	repeated mcube.http.Entry entries = 4[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"entries"'}
+        ];
+}
+
+// RegistryReponse todo
+message RegistryResponse {
+	string message = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"message"'}
+        ];
+}
+
+// DescribeEndpointRequest todo
+message DescribeEndpointRequest {
+	string id = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+        ];
+}
+
+// QueryEndpointRequest 查询应用列表
+message QueryEndpointRequest {
+        page.PageRequest page = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"page"'}
+        ];
+	repeated string service_ids = 2[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"service_ids"'}
+        ];
+	string path = 3[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"path"'}
+        ];
+	string method = 4[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"method"'}
+        ];
+	string function_name = 5[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"function_name"'}
+        ];
+        repeated string resources = 6[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"resources"'}
+        ];
+        map<string, string> labels = 7[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"labels"'}
+        ];
+        BoolQuery permission_enable = 8[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"permission_enable"'}
+        ];
+}
+
+// DeleteEndpointRequest todo
+message DeleteEndpointRequest {
+	string service_id = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"service_id"'}
+        ];
+}
+
+// QueryResourceRequest todo
+message QueryResourceRequest {
+        page.PageRequest page = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"page"'}
+        ];
+	repeated string service_ids = 2[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"service_ids"'}
+        ];
+        repeated string resources = 3[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"resources"'}
+        ];
+        BoolQuery permission_enable = 4[
+        (google.protobuf.field_tag) = {struct_tag: 'json:"permission_enable"'}
+        ]; 
+}

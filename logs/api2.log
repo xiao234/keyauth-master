@@ -1,0 +1,2 @@
+2021-12-03T20:48:59.006+0800	ERROR	[INIT]	cmd/start.go:205	log level: debug
+2021-12-03T20:48:59.006+0800	INFO	[TEST]	cmd/start.go:206	log level: debug

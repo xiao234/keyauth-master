@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package keyauth.namespace;
+option go_package = "github.com/infraboard/keyauth/pkg/namespace";
+
+import "github.com/infraboard/mcube/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+import "pkg/department/pb/department.proto";
+
+enum Visible {
+    // 默认空间是私有的
+    PRIVATE = 0;
+	// PUBLIC  公开的空间
+	PUBLIC = 1;
+}
+
+// Namespace tenant resource container
+message Namespace {
+    // 项目唯一ID
+    string id = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"id"'}
+        ];
+    // 所属域ID
+    string domain = 2[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"domain" json:"domain"'}
+        ];
+    // 创建人
+    string create_by = 3[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"create_by" json:"create_by"'}
+        ];
+    // 创建时间
+    int64 create_at = 4[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at"'}
+        ];
+    // 项目修改时间
+    int64 update_at = 5[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at"'}
+        ];
+    // 禁用项目, 该项目所有人暂时都无法访问
+    bool enabled = 6[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"enabled" json:"enabled"'}
+        ];
+    // 所属部门
+    string department_id = 7[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"department_id" json:"department_id"'}
+        ];
+    // 项目名称
+    string name = 8[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name"'}
+        ];
+    // 项目描述图片
+    string picture =9[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"picture" json:"picture"'}
+        ];
+    // 项目所有者, PMO
+    string owner = 10[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"owner" json:"owner"'}
+        ];
+    // 项目描述
+    string description = 11[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description"'}
+        ];
+    // 补充的部门
+    department.Department department = 12[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"department,omitempty"'}
+        ];
+    // 空间可见性, 默认是私有空间
+    Visible visible = 13[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"visible" json:"visible"'}
+        ];
+}
+
+
+message Set {
+    int64 total = 1[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+        ];
+    repeated Namespace items = 2[
+        (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+        ];
+}
